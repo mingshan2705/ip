@@ -33,8 +33,13 @@ public class Yapper {
                 } catch (Exception e) {
                     printMessage("Invalid input. Use 'unmark <task_number>'.");
                 }
-            } else if (userInput.startsWith("todo ")) {
-                addTodo(userInput.substring(5).trim());
+            } else if (userInput.startsWith("todo")) {
+                String description = userInput.substring(4).trim();
+                if (description.isEmpty()) {
+                    printMessage("OOPS!!! The description of a todo cannot be empty.");
+                } else {
+                    addTodo(description);
+                }
             } else if (userInput.startsWith("deadline ")) {
                 String[] parts = userInput.substring(9).split(" /by ", 2);
                 if (parts.length == 2) {

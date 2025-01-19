@@ -1,9 +1,8 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Yapper {
-    private static final int MAX_TASKS = 100;
-    private static Task[] tasks = new Task[MAX_TASKS];
-    private static int taskCount = 0;
+    private static ArrayList<Task> tasks = new ArrayList<>();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -19,6 +18,13 @@ public class Yapper {
                 break;
             } else if (userInput.equals("list")) {
                 displayTasks();
+            } else if (userInput.startsWith("delete ")) {
+                try {
+                    int taskIndex = Integer.parseInt(userInput.split(" ")[1]) - 1;
+                    deleteTask(taskIndex);
+                } catch (Exception e) {
+                    printMessage("Invalid input. Use 'delete <task_number>'.");
+                }
             } else if (userInput.startsWith("mark ")) {
                 try {
                     int taskIndex = Integer.parseInt(userInput.split(" ")[1]) - 1;
@@ -74,13 +80,8 @@ public class Yapper {
     }
 
     public static void addTask(Task task) {
-        if (taskCount < MAX_TASKS) {
-            tasks[taskCount] = task;
-            taskCount++;
-            printMessage("Got it. I've added this task:\n  " + task + "\nNow you have " + taskCount + " tasks in the list.");
-        } else {
-            printMessage("Sorry, I can't store more tasks.");
-        }
+        tasks.add(task);
+        printMessage("Got it. I've added this task:\n  " + task + "\nNow you have " + tasks.size() + " tasks in the list.");
     }
 
     public static void addTodo(String description) {
@@ -99,32 +100,41 @@ public class Yapper {
     }
 
     public static void displayTasks() {
-        if (taskCount == 0) {
+        if (tasks.isEmpty()) {
             printMessage("No tasks added yet.");
         } else {
             StringBuilder message = new StringBuilder("Here are the tasks in your list:");
-            for (int i = 0; i < taskCount; i++) {
-                message.append("\n ").append(i + 1).append(".").append(tasks[i]);
+            for (int i = 0; i < tasks.size(); i++) {
+                message.append("\n ").append(i + 1).append(".").append(tasks.get(i));
             }
             printMessage(message.toString());
         }
     }
 
     public static void markTaskAsDone(int index) {
-        if (index >= 0 && index < taskCount) {
-            tasks[index].markAsDone();
-            printMessage("Nice! I've marked this task as done:\n  " + tasks[index]);
+        if (index >= 0 && index < tasks.size()) {
+            tasks.get(index).markAsDone();
+            printMessage("Nice! I've marked this task as done:\n  " + tasks.get(index));
         } else {
-            printMessage("Invalid task number!");
+            printMessage("Task number out of range. Please enter a valid task number.");
         }
     }
 
     public static void markTaskAsNotDone(int index) {
-        if (index >= 0 && index < taskCount) {
-            tasks[index].markAsNotDone();
-            printMessage("OK, I've marked this task as not done yet:\n  " + tasks[index]);
+        if (index >= 0 && index < tasks.size()) {
+            tasks.get(index).markAsNotDone();
+            printMessage("OK, I've marked this task as not done yet:\n  " + tasks.get(index));
         } else {
-            printMessage("Invalid task number!");
+            printMessage("Task number out of range. Please enter a valid task number.");
+        }
+    }
+
+    public static void deleteTask(int index) {
+        if (index >= 0 && index < tasks.size()) {
+            Task removedTask = tasks.remove(index);
+            printMessage("Noted. I've removed this task:\n  " + removedTask + "\nNow you have " + tasks.size() + " tasks in the list.");
+        } else {
+            printMessage("Task number out of range. Please enter a valid task number.");
         }
     }
 }

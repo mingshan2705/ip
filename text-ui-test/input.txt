@@ -1,5 +1,6 @@
 list
 hi
+todo
 todo hi
 deadline hi by sunday
 deadline hi /by sunday

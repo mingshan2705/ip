@@ -1,0 +1,12 @@
+list
+hi
+todo hi
+deadline hi by sunday
+deadline hi /by sunday
+event hi /from sunday /to monday
+list
+mark 1
+list
+mark 2
+unmark 2
+bye

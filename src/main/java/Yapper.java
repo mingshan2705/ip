@@ -20,13 +20,40 @@ public class Yapper {
             } else if (userInput.equals("list")) {
                 displayTasks();
             } else if (userInput.startsWith("mark ")) {
-                int taskIndex = Integer.parseInt(userInput.split(" ")[1]) - 1;
-                markTaskAsDone(taskIndex);
+                try {
+                    int taskIndex = Integer.parseInt(userInput.split(" ")[1]) - 1;
+                    markTaskAsDone(taskIndex);
+                } catch (Exception e) {
+                    printMessage("Invalid input. Use 'mark <task_number>'.");
+                }
             } else if (userInput.startsWith("unmark ")) {
-                int taskIndex = Integer.parseInt(userInput.split(" ")[1]) - 1;
-                markTaskAsNotDone(taskIndex);
+                try {
+                    int taskIndex = Integer.parseInt(userInput.split(" ")[1]) - 1;
+                    markTaskAsNotDone(taskIndex);
+                } catch (Exception e) {
+                    printMessage("Invalid input. Use 'unmark <task_number>'.");
+                }
+            } else if (userInput.startsWith("todo ")) {
+                addTodo(userInput.substring(5).trim());
+            } else if (userInput.startsWith("deadline ")) {
+                String[] parts = userInput.substring(9).split(" /by ", 2);
+                if (parts.length == 2) {
+                    addDeadline(parts[0].trim(), parts[1].trim());
+                } else {
+                    printMessage("Invalid format! Use: deadline <description> /by <time>");
+                }
+            } else if (userInput.startsWith("event ")) {
+                String[] parts = userInput.substring(6).split(" /from ", 2);
+                if (parts.length == 2 && parts[1].contains(" /to ")) {
+                    String description = parts[0].trim();
+                    String from = parts[1].split(" /to ")[0].trim();
+                    String to = parts[1].split(" /to ")[1].trim();
+                    addEvent(description, from, to);
+                } else {
+                    printMessage("Invalid format! Use: event <description> /from <start> /to <end>");
+                }
             } else {
-                addTask(userInput);
+                printMessage("Unknown command!");
             }
         }
 
@@ -36,19 +63,34 @@ public class Yapper {
     public static void printMessage(String message) {
         String border = "____________________________________________________________";
         System.out.println(border);
-        System.out.println(" " + message);
+        System.out.println(message);
         System.out.println(border);
         System.out.println(); // Blank line for readability
     }
 
-    public static void addTask(String taskDescription) {
+    public static void addTask(Task task) {
         if (taskCount < MAX_TASKS) {
-            tasks[taskCount] = new Task(taskDescription);
+            tasks[taskCount] = task;
             taskCount++;
-            printMessage("added: " + taskDescription);
+            printMessage("Got it. I've added this task:\n  " + task + "\nNow you have " + taskCount + " tasks in the list.");
         } else {
             printMessage("Sorry, I can't store more tasks.");
         }
+    }
+
+    public static void addTodo(String description) {
+        Task todo = new Todo(description);
+        addTask(todo);
+    }
+
+    public static void addDeadline(String description, String by) {
+        Task deadline = new Deadline(description, by);
+        addTask(deadline);
+    }
+
+    public static void addEvent(String description, String from, String to) {
+        Task event = new Event(description, from, to);
+        addTask(event);
     }
 
     public static void displayTasks() {

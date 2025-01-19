@@ -1,12 +1,34 @@
+import java.util.Scanner;
+
 public class Yapper {
     public static void main(String[] args) {
-        String message = "____________________________________________________________\n"
-                + " Hello! I'm Yapper!\n"
-                + " What can I do for you?\n"
-                + "____________________________________________________________\n"
-                + " Bye. Hope to see you again soon!\n"
-                + "____________________________________________________________";
+        Scanner scanner = new Scanner(System.in);
 
-        System.out.println(message);
+        // Print welcome message
+        printMessage("Hello! I'm Yapper!\n Yapa Yapa Yapa");
+
+        while (true) {
+            // Read user input
+            String userInput = scanner.nextLine();
+
+            // Check if the command is "bye"
+            if (userInput.equals("bye")) {
+                printMessage("Bye. Hope to see you again soon!");
+                break; // Exit the loop
+            }
+
+            // Echo the user's input
+            printMessage(userInput);
+        }
+
+        scanner.close();
+    }
+
+    public static void printMessage(String message) {
+        String border = "____________________________________________________________";
+        System.out.println(border);
+        System.out.println(" " + message);
+        System.out.println(border);
+        System.out.println(); // Blank line for better readability
     }
 }

@@ -1,3 +1,5 @@
+package yapper;
+
 import java.util.Scanner;
 
 public class Ui {
@@ -9,7 +11,7 @@ public class Ui {
     }
 
     public void showWelcome() {
-        showMessage("Hello! I'm Yapper!\nYapa Yapa Yapa");
+        showMessage("Hello! I'm yapper.Yapper!\nYapa Yapa Yapa");
     }
 
     public void showGoodbye() {

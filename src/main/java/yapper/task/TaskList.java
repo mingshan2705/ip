@@ -1,3 +1,5 @@
+package yapper.task;
+
 import java.util.ArrayList;
 
 public class TaskList {
@@ -18,14 +20,14 @@ public class TaskList {
 
     public Task deleteTask(int index) {
         if (index < 0 || index >= tasks.size()) {
-            throw new IndexOutOfBoundsException("Task number is invalid.");
+            throw new IndexOutOfBoundsException("yapper.task.Task number is invalid.");
         }
         return tasks.remove(index);
     }
 
     public Task markTaskAsDone(int index) {
         if (index < 0 || index >= tasks.size()) {
-            throw new IndexOutOfBoundsException("Task number is invalid.");
+            throw new IndexOutOfBoundsException("yapper.task.Task number is invalid.");
         }
         Task task = tasks.get(index);
         task.markAsDone();
@@ -34,7 +36,7 @@ public class TaskList {
 
     public Task markTaskAsNotDone(int index) {
         if (index < 0 || index >= tasks.size()) {
-            throw new IndexOutOfBoundsException("Task number is invalid.");
+            throw new IndexOutOfBoundsException("yapper.task.Task number is invalid.");
         }
         Task task = tasks.get(index);
         task.markAsNotDone();

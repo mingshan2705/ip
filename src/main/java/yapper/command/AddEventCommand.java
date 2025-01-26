@@ -1,3 +1,7 @@
+package yapper.command;
+
+import yapper.*;
+import yapper.task.*;
 import java.io.IOException;
 
 public class AddEventCommand extends Command {

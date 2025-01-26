@@ -1,3 +1,10 @@
+package yapper;
+
+import yapper.task.Deadline;
+import yapper.task.Event;
+import yapper.task.Task;
+import yapper.task.Todo;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -37,7 +44,7 @@ public class Storage {
         writer.close();
     }
 
-    // Parse a line into a Task object
+    // Parse a line into a yapper.task.Task object
     private Task parseTask(String line) {
         String[] parts = line.split(" \\| ");
         String taskType = parts[0];
@@ -45,17 +52,17 @@ public class Storage {
         String description = parts[2];
 
         switch (taskType) {
-            case "T": // Todo
+            case "T": // yapper.task.Todo
                 Todo todo = new Todo(description);
                 if (isDone) todo.markAsDone();
                 return todo;
 
-            case "D": // Deadline
+            case "D": // yapper.task.Deadline
                 Deadline deadline = new Deadline(description, parts[3]); // parts[3] is the date-time
                 if (isDone) deadline.markAsDone();
                 return deadline;
 
-            case "E": // Event
+            case "E": // yapper.task.Event
                 Event event = new Event(description, parts[3], parts[4]); // parts[3] is 'from', parts[4] is 'to'
                 if (isDone) event.markAsDone();
                 return event;
@@ -65,7 +72,7 @@ public class Storage {
         }
     }
 
-    // Serialize a Task object into a line
+    // Serialize a yapper.task.Task object into a line
     private String serializeTask(Task task) {
         String taskType = task instanceof Todo ? "T"
                 : task instanceof Deadline ? "D"

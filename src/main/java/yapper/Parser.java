@@ -1,3 +1,7 @@
+package yapper;
+
+import yapper.command.*;
+
 public class Parser {
 
     public Command parse(String fullCommand) {

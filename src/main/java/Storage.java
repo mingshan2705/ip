@@ -1,4 +1,5 @@
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Storage {
@@ -45,18 +46,21 @@ public class Storage {
         String description = parts[2];
 
         switch (taskType) {
-            case "T":
+            case "T": // Todo
                 Todo todo = new Todo(description);
                 if (isDone) todo.markAsDone();
                 return todo;
-            case "D":
-                Deadline deadline = new Deadline(description, parts[3]);
+
+            case "D": // Deadline
+                Deadline deadline = new Deadline(description, parts[3]); // parts[3] is the date-time
                 if (isDone) deadline.markAsDone();
                 return deadline;
-            case "E":
-                Event event = new Event(description, parts[3], parts[4]);
+
+            case "E": // Event
+                Event event = new Event(description, parts[3], parts[4]); // parts[3] is 'from', parts[4] is 'to'
                 if (isDone) event.markAsDone();
                 return event;
+
             default:
                 throw new IllegalArgumentException("Unknown task type: " + taskType);
         }
@@ -73,10 +77,10 @@ public class Storage {
             return String.join(" | ", taskType, status, task.description);
         } else if (task instanceof Deadline) {
             Deadline deadline = (Deadline) task;
-            return String.join(" | ", taskType, status, deadline.description, ((Deadline) task).by);
+            return String.join(" | ", taskType, status, deadline.description, deadline.by.toString());
         } else if (task instanceof Event) {
             Event event = (Event) task;
-            return String.join(" | ", taskType, status, event.description, event.from, event.to);
+            return String.join(" | ", taskType, status, event.description, event.from.toString(), event.to.toString());
         }
         throw new IllegalArgumentException("Unknown task type: " + task.getClass().getSimpleName());
     }

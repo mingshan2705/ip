@@ -1,11 +1,23 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Yapper {
-    private static ArrayList<Task> tasks = new ArrayList<>();
+    private static final String FILE_PATH = "./data/yapper.txt";
+    private static ArrayList<Task> tasks;
+    private static Storage storage;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        storage = new Storage(FILE_PATH);
+
+        // Load tasks from file
+        try {
+            tasks = storage.loadTasks();
+        } catch (IOException e) {
+            printMessage("Failed to load tasks. Starting with an empty list.");
+            tasks = new ArrayList<>();
+        }
 
         // Print welcome message
         printMessage("Hello! I'm Yapper!\nYapa Yapa Yapa");
@@ -79,9 +91,18 @@ public class Yapper {
         System.out.println(); // Blank line for readability
     }
 
+    private static void saveTasks() {
+        try {
+            storage.saveTasks(tasks);
+        } catch (IOException e) {
+            printMessage("Failed to save tasks to disk.");
+        }
+    }
+
     public static void addTask(Task task) {
         tasks.add(task);
         printMessage("Got it. I've added this task:\n  " + task + "\nNow you have " + tasks.size() + " tasks in the list.");
+        saveTasks();
     }
 
     public static void addTodo(String description) {
@@ -115,6 +136,7 @@ public class Yapper {
         if (index >= 0 && index < tasks.size()) {
             tasks.get(index).markAsDone();
             printMessage("Nice! I've marked this task as done:\n  " + tasks.get(index));
+            saveTasks();
         } else {
             printMessage("Task number out of range. Please enter a valid task number.");
         }
@@ -124,6 +146,7 @@ public class Yapper {
         if (index >= 0 && index < tasks.size()) {
             tasks.get(index).markAsNotDone();
             printMessage("OK, I've marked this task as not done yet:\n  " + tasks.get(index));
+            saveTasks();
         } else {
             printMessage("Task number out of range. Please enter a valid task number.");
         }
@@ -133,6 +156,7 @@ public class Yapper {
         if (index >= 0 && index < tasks.size()) {
             Task removedTask = tasks.remove(index);
             printMessage("Noted. I've removed this task:\n  " + removedTask + "\nNow you have " + tasks.size() + " tasks in the list.");
+            saveTasks();
         } else {
             printMessage("Task number out of range. Please enter a valid task number.");
         }

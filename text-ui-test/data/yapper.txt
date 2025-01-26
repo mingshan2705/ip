@@ -1,0 +1,6 @@
+T | 1 | hi
+D | 0 | hi | sunday
+E | 0 | hi | sunday | monday
+T | 0 | hi
+D | 0 | hi | sunday
+E | 0 | hi | sunday | monday

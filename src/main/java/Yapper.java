@@ -61,9 +61,13 @@ public class Yapper {
             } else if (userInput.startsWith("deadline ")) {
                 String[] parts = userInput.substring(9).split(" /by ", 2);
                 if (parts.length == 2) {
-                    addDeadline(parts[0].trim(), parts[1].trim());
+                    try {
+                        addDeadline(parts[0].trim(), parts[1].trim()); // Ensure date-time is in yyyy-MM-ddTHH:mm format
+                    } catch (Exception e) {
+                        printMessage("Invalid date-time format! Use: deadline <description> /by <yyyy-MM-ddTHH:mm>");
+                    }
                 } else {
-                    printMessage("Invalid format! Use: deadline <description> /by <time>");
+                    printMessage("Invalid format! Use: deadline <description> /by <yyyy-MM-ddTHH:mm>");
                 }
             } else if (userInput.startsWith("event ")) {
                 String[] parts = userInput.substring(6).split(" /from ", 2);
@@ -111,13 +115,22 @@ public class Yapper {
     }
 
     public static void addDeadline(String description, String by) {
-        Task deadline = new Deadline(description, by);
-        addTask(deadline);
+        try {
+            Task deadline = new Deadline(description, by);
+            addTask(deadline);
+        } catch (Exception e) {
+            printMessage("Invalid date-time format! Please use yyyy-MM-ddTHH:mm.");
+        }
     }
 
+
     public static void addEvent(String description, String from, String to) {
-        Task event = new Event(description, from, to);
-        addTask(event);
+        try {
+            Task event = new Event(description, from, to);
+            addTask(event);
+        } catch (Exception e) {
+            printMessage("Invalid datetime format! Please use yyyy-MM-ddTHH:mm.");
+        }
     }
 
     public static void displayTasks() {

@@ -12,6 +12,16 @@ then
     rm ACTUAL.TXT
 fi
 
+# ensure the yapper.txt file in text-ui-test/data is emptied (clean slate)
+if [ -e "./data/yapper.txt" ]
+then
+    > ./data/yapper.txt  # Empty the file without deleting it
+else
+    # create the directory and file if they don't exist
+    mkdir -p ./data
+    touch ./data/yapper.txt
+fi
+
 # compile the code into the bin folder, terminates if error occurred
 if ! javac -cp ../src/main/java -Xlint:none -d ../bin ../src/main/java/*.java
 then

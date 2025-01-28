@@ -2,8 +2,18 @@ package yapper;
 
 import yapper.command.*;
 
+/**
+ * Parses user input and returns the appropriate {@link Command} to execute.
+ */
 public class Parser {
 
+    /**
+     * Parses the full command input from the user and returns the corresponding {@link Command}.
+     *
+     * @param fullCommand The full command input from the user.
+     * @return A {@link Command} object that represents the user command.
+     * @throws IllegalArgumentException If the command is not recognized.
+     */
     public Command parse(String fullCommand) {
         String[] split = fullCommand.split(" ", 2);
         String commandWord = split[0];

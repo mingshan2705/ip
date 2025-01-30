@@ -1,0 +1,24 @@
+.dialog-box {
+    -fx-background-radius: 15;
+    -fx-padding: 10;
+    -fx-background-color: #f4f4f4;
+    -fx-border-color: #d1d1d1;
+    -fx-border-radius: 15;
+}
+
+.dialog-box .label {
+    -fx-text-fill: #333333;
+    -fx-font-size: 20px;
+}
+
+.dialog-box.user {
+    -fx-background-color: #cce5ff;
+    -fx-border-color: #99ccff;
+    -fx-alignment: RIGHT;
+}
+
+.dialog-box.bot {
+    -fx-background-color: #e6ffe6;
+    -fx-border-color: #99ff99;
+    -fx-alignment: LEFT;
+}

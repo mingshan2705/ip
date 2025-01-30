@@ -1,40 +1,37 @@
 package yapper;
 
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Handles user interaction and message display.
+ */
 public class Ui {
+    private List<String> messageHistory;
 
-    private Scanner scanner;
-
+    /**
+     * Initializes UI with an empty message history.
+     */
     public Ui() {
-        this.scanner = new Scanner(System.in);
+        this.messageHistory = new ArrayList<>();
     }
 
-    public void showWelcome() {
-        showMessage("Hello! I'm yapper.Yapper!\nYapa Yapa Yapa");
-    }
-
-    public void showGoodbye() {
-        showMessage("Bye. Hope to see you again soon!");
-    }
-
-    public String readCommand() {
-        return scanner.nextLine();
-    }
-
+    /**
+     * Stores the latest chatbot message and prints it.
+     *
+     * @param message The message to be displayed.
+     */
     public void showMessage(String message) {
-        String border = "____________________________________________________________";
-        System.out.println(border);
+        messageHistory.add(message);
         System.out.println(message);
-        System.out.println(border);
-        System.out.println(); // Blank line for readability
     }
 
-    public void showLoadingError() {
-        showMessage("Failed to load tasks. Starting with an empty list.");
-    }
-
-    public void showError(String errorMessage) {
-        showMessage("OOPS!!! " + errorMessage);
+    /**
+     * Retrieves the last chatbot response message.
+     *
+     * @return The most recent message, or a default message if none exist.
+     */
+    public String getLastMessage() {
+        return messageHistory.isEmpty() ? "No messages yet." : messageHistory.get(messageHistory.size() - 1);
     }
 }

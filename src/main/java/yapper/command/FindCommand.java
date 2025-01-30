@@ -22,7 +22,7 @@ public class FindCommand extends Command {
         List<Task> matchingTasks = tasks.getTasks()
                 .stream()
                 .filter(task -> task.description.contains(keyword))
-                .toList();
+                .collect(Collectors.toList());
 
         if (matchingTasks.isEmpty()) {
             ui.showMessage("No matching tasks found.");

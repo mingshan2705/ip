@@ -21,10 +21,41 @@ public class Event extends Task {
      */
     public Event(String description, String from, String to) {
         super(description);
-        this.from = LocalDateTime.parse(from); // Parse start datetime
-        this.to = LocalDateTime.parse(to);     // Parse end datetime
-        // Assert that the start time is before the end time
+        this.from = parseDateTime(from);
+        this.to = parseDateTime(to);
+        validateDateTimeOrder(this.from, this.to);
         assert this.from.isBefore(this.to) : "Start time should be before end time";
+    }
+
+    /**
+     * Parses a date-time string into a {@link LocalDateTime} object.
+     *
+     * @param dateTime The date-time string to parse.
+     * @return The parsed {@link LocalDateTime} object.
+     * @throws IllegalArgumentException If the input date/time string is invalid or cannot be parsed.
+     */
+    private LocalDateTime parseDateTime(String dateTime) {
+        assert dateTime != null : "Date/time string should not be null";
+        try {
+            return LocalDateTime.parse(dateTime);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid date/time format: " + dateTime);
+        }
+    }
+
+    /**
+     * Validates that the start time is before the end time.
+     *
+     * @param from The start time.
+     * @param to   The end time.
+     * @throws IllegalArgumentException If the start time is not before the end time.
+     */
+    private void validateDateTimeOrder(LocalDateTime from, LocalDateTime to) {
+        assert from != null : "Start time should not be null";
+        assert to != null : "End time should not be null";
+        if (!from.isBefore(to)) {
+            throw new IllegalArgumentException("Start time should be before end time");
+        }
     }
 
     /**

@@ -23,6 +23,8 @@ public class Event extends Task {
         super(description);
         this.from = LocalDateTime.parse(from); // Parse start datetime
         this.to = LocalDateTime.parse(to);     // Parse end datetime
+        // Assert that the start time is before the end time
+        assert this.from.isBefore(this.to) : "Start time should be before end time";
     }
 
     /**
